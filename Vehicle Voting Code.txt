@@ -1,0 +1,131 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace VotingApplication
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+     
+     string question = "Which vehicle would you like to vote for? (Type the corresponding number and hit Enter)";
+     int newVehicle = 0;
+     int newCast = 0;
+     int add = 1;
+     
+     //List of vote options that will be added to by user input.
+     List<string> voteOptions = new List<string>();
+     
+     //List that will keep track of the votes.
+     List<int> voteResults = new List<int>();
+     
+     //List for numbering each item added to voteOptions
+     List<int> numberedList = new List<int>();
+     
+     //Loop for getting the user to add to the voteOptions List.
+     do {
+     Console.WriteLine("Enter a vehicle to add to the list for voting:");
+     string input = Console.ReadLine();
+     voteOptions.Add(input);
+     voteResults.Add(0);
+     numberedList.Add(add);
+     add++;
+     Console.Clear();
+     
+     
+     Console.WriteLine("Would you like to add another vehicle? (Type Number 1 or 2 and hit enter)");
+     Console.WriteLine("1. Yes");
+     Console.WriteLine("2. No, Show me the list of all voting options.");
+     int addVehicle = Convert.ToInt32(Console.ReadLine());
+     Console.Clear();
+     newVehicle = addVehicle;
+     }
+     
+     
+     while (newVehicle == 1);
+     
+     if (newVehicle == 2)  {
+          Console.WriteLine("Here is the list of avilable options to vote for.");
+         }
+
+      // Loop to gather votes
+      do {
+      Console.WriteLine(question);
+      for (int i = 0; i < numberedList.Count && i < voteOptions.Count; i++)
+          {
+              Console.WriteLine("{0}\t{1}", numberedList[i], voteOptions[i]);
+          }
+          
+      Console.WriteLine();
+      
+      int response = Convert.ToInt32(Console.ReadLine());
+      Console.Clear();
+      
+      
+        //Response will add one to which ever vote was cast
+      if (response >= 1 && response <= voteOptions.Count) {
+      	Console.WriteLine("You voted for " + voteOptions[response - 1] + "!");
+      	Console.WriteLine();
+      	voteResults[response - 1]++;
+      	}
+      
+      else {
+      	Console.WriteLine("Invalid Vote");
+      }
+      
+        //Cast new vote or get results
+      Console.WriteLine("Would you like to cast another vote? Type the corresponding number and hit Enter.)");
+      Console.WriteLine("1. New Vote");
+      Console.WriteLine("2. End vote and display the results");
+      Console.WriteLine();
+      
+        //Casting a new vote
+      int newVote = Convert.ToInt32(Console.ReadLine());
+      Console.Clear();
+      newCast = newVote;
+      }
+      
+      while (newCast == 1);
+      
+        //Print results by looping through voteResults array
+      if (newCast == 2)  {
+          
+          int maxIndex = voteResults.IndexOf(voteResults.Max());
+          string winner = voteOptions[maxIndex];
+          int winnerVotes = voteResults[maxIndex];
+          int maxVotes = voteResults.Max();
+          
+          List<int> winners = new List<int>();
+          for (int i = 0; i < voteResults.Count; i++)
+          {
+              if (voteResults[i] == maxVotes)
+              {
+                  winners.Add(i);
+              }
+          }
+          
+          if (winners.Count == 1)
+          {
+          Console.WriteLine("The winner is {0} with {1} votes!", winner, winnerVotes);
+          Console.WriteLine();
+          }
+          else {
+              Console.WriteLine("There is a tie between the following options:");
+              Console.WriteLine();
+              foreach (int winnerIndex in winners)
+              {
+                  Console.WriteLine("{0} with {1} votes", voteOptions[winnerIndex], voteResults[winnerIndex]);
+              }
+              Console.WriteLine();
+             
+          }
+          
+          for (int i = 0; i < voteOptions.Count && i < voteResults.Count; i++)
+          {
+              Console.WriteLine("{0}\t{1}", voteOptions[i], voteResults[i]);
+          }
+         }
+    }
+  }
+}
